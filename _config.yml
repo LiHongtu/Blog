@@ -1,0 +1,21 @@
+﻿permalink: /:year/:month/:day/:title.html   #博文的固定链接
+title: The future                             #自定义常量
+
+encoding: utf-8
+
+# 开启分页
+paginate: 5
+paginate_path: "page:num"
+
+# Build settings
+markdown: kramdown
+
+rss: /feed.xml
+
+# Content
+excerpt_link: more
+fancybox: true
+mathjax: true
+
+# 是否在新窗口打开链接
+open_in_new: false
