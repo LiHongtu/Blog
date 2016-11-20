@@ -1,6 +1,6 @@
 ﻿---
 layout: page
-category : 读书笔记-大规模分布式存储系统（原理解析与结构实践）
+category : 读书笔记
 title:  读书笔记-大规模分布式存储系统（原理解析与结构实践）
 date:   2016-07-22 01:54:33        // 博客日期
 author: future                      // 作者

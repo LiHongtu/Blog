@@ -1,8 +1,8 @@
----
+﻿---
 layout: page
-category : VMware vSphere 5.5培训笔记
+category : 读书笔记
 title:  VMware vSphere 5.5培训笔记
-date:   201-07-16 01:54:33        // 博客日期
+date:   2016-07-16 01:54:33        // 博客日期
 author: future                      // 作者
 categories: [test, sample]
 ---

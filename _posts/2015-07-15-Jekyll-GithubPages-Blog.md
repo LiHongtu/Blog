@@ -1,8 +1,8 @@
----
+﻿---
 layout: page
-category : Jekyll在Github上搭建个人博客
+category : 笔记
 title:  Jekyll在Github上搭建个人博客
-date:   2016-07-15 01:54:33        // 博客日期
+date:   2015-07-15 01:54:33        // 博客日期
 author: future                      // 作者
 categories: [test, sample]
 ---
