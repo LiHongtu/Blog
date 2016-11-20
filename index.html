@@ -10,7 +10,7 @@ layout: default
       <h1 class="article-title" itemprop="name"><a class="article-title" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> </h1>
     </header>
     <div class="article-entry" itemprop="articleBody">
-      <p> {{ post.excerpt }}</p>
+      {{post.excerpt}}
     </div>
     <div class="article-info article-info-index">
       <div class="article-tag tagcloud"> {{ page.category | first }} </div>

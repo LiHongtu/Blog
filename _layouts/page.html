@@ -5,9 +5,7 @@
 {% include header.html %}
 <div class="body-wrap">
 <article id="post-hack-in-localstorage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta"><a href="{{ post.url | prepend: site.baseurl }}" class="article-date">
-    <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>
-    </a> </div>
+  <div class="article-meta"><a href="{{ post.url | prepend: site.baseurl }}" class="article-date"></a> </div>
   <div class="article-inner">
     <input type="hidden" class="isFancy" />
     <header class="article-header">
@@ -16,9 +14,7 @@
     <div class="article-info article-info-post">
       <div class="article-tag tagcloud">
         <ul class="article-tag-list">
-          {% for category in site.categories %}
-          <li class="article-tag-list-item"><a class="article-tag-list-link" href="/">{{ category | last | size }}</a></li>
-          {% endfor %}
+          {{ category | first }}
         </ul>
       </div>
       <div class="clearfix"></div>

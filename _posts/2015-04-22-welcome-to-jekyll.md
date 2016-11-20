@@ -1,8 +1,8 @@
----
+﻿---
 layout: page
 category : welcome-to-jekyll
 title:  welcome-to-jekyll
-date:   2015-05-22 01:54:33        // 博客日期
+date:   2015-04-22 01:54:33        // 博客日期
 author: future                      // 作者
 categories: [test, sample]
 ---
