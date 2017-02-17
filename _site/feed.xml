@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.4.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-02-17T21:36:47+08:00</updated><id>http://localhost:4000//</id><title type="html">观　堂Guan tang</title><subtitle>生活、思考、感悟、记录、探索、分享.
+</subtitle><entry><title type="html">大规模分布式存储系统（原理解析与结构实践）</title><link href="http://localhost:4000/data/2016/07/22/BigDataStorenote.html" rel="alternate" type="text/html" title="大规模分布式存储系统（原理解析与结构实践）" /><published>2016-07-22T13:52:59+08:00</published><updated>2016-07-22T13:52:59+08:00</updated><id>http://localhost:4000/data/2016/07/22/BigDataStorenote</id><content type="html" xml:base="http://localhost:4000/data/2016/07/22/BigDataStorenote.html">&lt;p&gt;大数据，解决问题的一种方法。&lt;/p&gt;
+&lt;h1 id=&quot;1-大数据&quot;&gt;1. 大数据&lt;/h1&gt;
+&lt;p&gt;首先需要将大数据存储并沉淀下来，，还需要使用合适的大数据&lt;strong&gt;计算框架&lt;/strong&gt;和大数据&lt;strong&gt;算法&lt;/strong&gt;来理解大数据的价值。&lt;/p&gt;
+
+&lt;p&gt;MapReduce解决海量数据&lt;strong&gt;离线分析&lt;/strong&gt;问题，但是流式计算系统和实时分析系统解决实时数据计算分析问题。&lt;/p&gt;
+
+&lt;h2 id=&quot;11-产生背景&quot;&gt;1.1 产生背景&lt;/h2&gt;
+
+&lt;p&gt;数据的爆发式增长。新摩尔定律&lt;/p&gt;
+
+&lt;p&gt;社会化趋势。社交网络的兴起&lt;/p&gt;
+
+&lt;p&gt;物联网（数据量大）+移动互联网（更准确、更快）。&lt;/p&gt;
+
+&lt;h2 id=&quot;12-特点&quot;&gt;1.2 特点&lt;/h2&gt;
+&lt;p&gt;volume
+数据量大&lt;/p&gt;
+
+&lt;p&gt;variety
+数据类型多&lt;/p&gt;
+
+&lt;p&gt;velocity
+数据增长迅速&lt;/p&gt;
+
+&lt;p&gt;value
+价值密度低&lt;/p&gt;
+
+&lt;h2 id=&quot;13-商业模式&quot;&gt;1.3 商业模式&lt;/h2&gt;
+&lt;p&gt;侧重舆情分析，内部数据挖掘&lt;/p&gt;
+
+&lt;p&gt;侧重社交营销，精准找到用户&lt;/p&gt;
+
+&lt;p&gt;数据的可视化&lt;/p&gt;
+
+&lt;h2 id=&quot;14-大数据管理&quot;&gt;1.4 大数据管理&lt;/h2&gt;
+
+&lt;p&gt;Hadoop，Google GFS以及MapReduce系统的开源实现，只提供离线处理功能。&lt;/p&gt;
+
+&lt;p&gt;流式计算系统，能够处理实时的数据流。&lt;/p&gt;
+
+&lt;p&gt;实时分析系统，采用传统的MPP技术（大规模并行处理）从海量数据中实时提取有价值的汇总信息。&lt;/p&gt;
+
+&lt;h2 id=&quot;15-大数据的理解&quot;&gt;1.5 大数据的理解&lt;/h2&gt;
+
+&lt;h3 id=&quot;目前思路&quot;&gt;目前思路&lt;/h3&gt;
+&lt;p&gt;体系结构、分布式处理、NOSQL等思路解决性能问题&lt;/p&gt;
+
+&lt;h3 id=&quot;今后挑战&quot;&gt;今后挑战&lt;/h3&gt;
+&lt;p&gt;如何设计合理的算法、规则&lt;/p&gt;
+
+&lt;p&gt;自动进化的系统理解大数据&lt;/p&gt;
+
+&lt;p&gt;对大数据去伪存真&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;互联网技术归根结底就是云计算和大数据技术，云计算提供海量数据的存储和计算能力，并最大程度地降低分布式处理的成本，大数据技术进一步从海量数据中抽取数据的价值，形成一条大数据采集、处理、反馈的数据处理闭环。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;2-mapreduce&quot;&gt;2. MapReduce&lt;/h1&gt;
+
+&lt;p&gt;离线批处理问题。&lt;/p&gt;
+
+&lt;p&gt;使用者只需编写两个成为Map和Reduce的函数即可，MapReduce框架会自动处理数据划分、多级并行执行、任务之间的协调，并且能够处理某个任务执行失败或者机器出现故障的情况。
+MapReduce执行流程如下：
+&lt;img src=&quot;http://note.youdao.com/yws/res/188/WEBRESOURCE5ba74d1f2a78d8c41ec7634a1eee1a49&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;MapReduce框架实现时关键优化：
+本地化：最近原则&lt;/p&gt;
+
+&lt;p&gt;备份任务：拖后腿问题&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;3-mapreduce及其扩展&quot;&gt;3. MapReduce及其扩展&lt;/h1&gt;
+&lt;h2 id=&quot;google-tenzing&quot;&gt;Google Tenzing&lt;/h2&gt;
+&lt;p&gt;基于mapreduce模型构建sql执行引擎，使得数据分析人员可以直接通过sql语言处理大数据&lt;/p&gt;
+&lt;h2 id=&quot;microsoft-dryad&quot;&gt;Microsoft Dryad&lt;/h2&gt;
+&lt;p&gt;将mapreduce模型从一个简单的两部工作流扩展为任何函数集的组合，并通过一个有向无环图来表示函数之间的工作流。&lt;/p&gt;
+&lt;h2 id=&quot;google-pregel&quot;&gt;Google Pregel&lt;/h2&gt;
+&lt;p&gt;用于图模型迭代计算，这种场景下Pregel的性能远远好于Mapreduce&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;4-流式计算&quot;&gt;4. 流式计算&lt;/h1&gt;
+
+&lt;p&gt;流式计算解决在线聚合、在线过滤等问题，流式计算同时具有存储系统和计算系统的特点，经常应用于类似反作弊、交易异常监控等场景。&lt;/p&gt;
+&lt;h2 id=&quot;原理&quot;&gt;原理&lt;/h2&gt;
+&lt;p&gt;源数据写入到流处理节点，流处理节点内部运行用户自定义的钩子函数对输入流进行处理，处理完后根据一定的规则转发给下流的流处理节点继续处理。另外，系统中往往还有管理节点，用来管理流处理节点的状态以及节点之间的路由规则。&lt;/p&gt;
+&lt;h4 id=&quot;典型钩子函数包括&quot;&gt;典型钩子函数包括&lt;/h4&gt;
+&lt;p&gt;聚合函数&lt;/p&gt;
+
+&lt;p&gt;过滤函数&lt;/p&gt;
+
+&lt;p&gt;流处理节点通过主备同步的方式容错。&lt;/p&gt;
+&lt;h2 id=&quot;yahoo-s4&quot;&gt;Yahoo S4&lt;/h2&gt;
+&lt;p&gt;最初是yahoo为了提高引擎广告有效点击率而开发的一个流式处理系统&lt;/p&gt;
+&lt;h3 id=&quot;设计目标&quot;&gt;设计目标&lt;/h3&gt;
+&lt;p&gt;提供一种简单的编程接口来处理数据流，使得用户可以定制流式计算的操作算子。&lt;/p&gt;
+
+&lt;h2 id=&quot;twitter-storm&quot;&gt;Twitter Storm&lt;/h2&gt;
+&lt;p&gt;目前广泛使用的流式计算系统。&lt;/p&gt;
+
+&lt;h1 id=&quot;5-实时分析&quot;&gt;5. 实时分析&lt;/h1&gt;
+&lt;p&gt;实时分析系统融合了并行数据库和云计算这两类技术，能够从海量数据中快速分析出汇总结构。&lt;/p&gt;
+&lt;h2 id=&quot;mpp架构&quot;&gt;MPP架构&lt;/h2&gt;
+
+&lt;h2 id=&quot;emc-greenplum&quot;&gt;EMC Greenplum&lt;/h2&gt;
+
+&lt;h2 id=&quot;hp-vertica&quot;&gt;HP Vertica&lt;/h2&gt;
+
+&lt;h2 id=&quot;google-dremel&quot;&gt;Google Dremel&lt;/h2&gt;
+
+&lt;p&gt;Google实时分析系统，还是Google Bigquery服务的底层存储和查询引擎。&lt;/p&gt;</content><summary type="html">大数据，解决问题的一种方法。
+1. 大数据
+首先需要将大数据存储并沉淀下来，，还需要使用合适的大数据计算框架和大数据算法来理解大数据的价值。</summary></entry><entry><title type="html">VMware vSphere 5.5培训笔记</title><link href="http://localhost:4000/virtualization/2016/07/16/VMware-vSphere-5.5-edu-note.html" rel="alternate" type="text/html" title="VMware vSphere 5.5培训笔记" /><published>2016-07-16T13:52:59+08:00</published><updated>2016-07-16T13:52:59+08:00</updated><id>http://localhost:4000/virtualization/2016/07/16/VMware-vSphere-5.5-edu-note</id><content type="html" xml:base="http://localhost:4000/virtualization/2016/07/16/VMware-vSphere-5.5-edu-note.html">&lt;h1 id=&quot;第一章-课程简介&quot;&gt;第一章 课程简介&lt;/h1&gt;
+&lt;h2 id=&quot;1课程要求&quot;&gt;1、课程要求&lt;/h2&gt;
+
+&lt;p&gt;上课时间80%&lt;/p&gt;
+
+&lt;p&gt;教材涵盖内容不全，需要看相关文档（白皮书）&lt;/p&gt;
+
+&lt;h2 id=&quot;2什么是vsphere&quot;&gt;2、什么是Vsphere&lt;/h2&gt;
+
+&lt;p&gt;Vsphere是基础架构管理套件&lt;/p&gt;
+
+&lt;h3 id=&quot;管理&quot;&gt;管理&lt;/h3&gt;
+
+&lt;p&gt;管理计算、存储、网络&lt;/p&gt;
+
+&lt;p&gt;Vsphere client 直接操作&lt;/p&gt;
+
+&lt;p&gt;Vsphere web client&lt;/p&gt;
+
+&lt;h3 id=&quot;vmotion&quot;&gt;vmotion&lt;/h3&gt;
+
+&lt;p&gt;在线迁移&lt;/p&gt;
+
+&lt;p&gt;内存迁移、存储迁移、虚机迁移&lt;/p&gt;
+
+&lt;p&gt;无共享存储迁移    迁移主机和存储&lt;/p&gt;
+
+&lt;h2 id=&quot;3vcp认证&quot;&gt;3、VCP认证&lt;/h2&gt;
+&lt;h3 id=&quot;vcap-高级认证&quot;&gt;VCAP 高级认证&lt;/h3&gt;
+&lt;p&gt;	-dcpa管理方向&lt;/p&gt;
+
+&lt;p&gt;	-DCD 设计方向，架构方向&lt;/p&gt;
+
+&lt;h3 id=&quot;vcdx&quot;&gt;Vcdx&lt;/h3&gt;
+
+&lt;p&gt;国内不考
+国外论文、答辩&lt;/p&gt;
+
+&lt;h1 id=&quot;第二章-虚拟化&quot;&gt;第二章 虚拟化&lt;/h1&gt;
+&lt;h2 id=&quot;1虚拟化简介&quot;&gt;1、虚拟化简介&lt;/h2&gt;
+&lt;p&gt;在物理的平台上安装虚拟化平台软件vsphere，在虚拟化平台之上创建虚拟机。&lt;/p&gt;
+&lt;h4 id=&quot;为什么使用虚拟机&quot;&gt;为什么使用虚拟机&lt;/h4&gt;
+&lt;p&gt;资源利用率低&lt;/p&gt;
+
+&lt;p&gt;管理不灵活&lt;/p&gt;
+
+&lt;p&gt;成本高&lt;/p&gt;
+
+&lt;h3 id=&quot;资源池化&quot;&gt;资源池化&lt;/h3&gt;
+&lt;p&gt;把资源做成一个资源池&lt;/p&gt;
+
+&lt;p&gt;虚拟机在管理员角度是一个文件夹&lt;/p&gt;
+
+&lt;p&gt;虚拟机，仅仅为逻辑上的计算机。&lt;/p&gt;
+
+&lt;h3 id=&quot;cpu虚拟化&quot;&gt;CPU虚拟化&lt;/h3&gt;
+&lt;p&gt;调度原理&lt;/p&gt;
+
+&lt;p&gt;物理快空闲占用&lt;/p&gt;
+
+&lt;p&gt;虚拟CPU没有时间，必须通过占用物理cpu时间获得cpu时间。&lt;/p&gt;
+
+&lt;p&gt;物理空闲，虚拟过来调用&lt;/p&gt;
+
+&lt;p&gt;cpu就绪时间&lt;/p&gt;
+
+&lt;p&gt;40ms  大于40ms就有问题&lt;/p&gt;
+
+&lt;p&gt;一个cpu创建3-5个虚拟cpu比较合理&lt;/p&gt;
+
+&lt;h3 id=&quot;内存虚拟化&quot;&gt;内存虚拟化&lt;/h3&gt;
+&lt;p&gt;按需分配&lt;/p&gt;
+
+&lt;p&gt;资源充分利用&lt;/p&gt;
+
+&lt;p&gt;给你了，你不用我拿过来用&lt;/p&gt;
+
+&lt;h3 id=&quot;网络虚拟化&quot;&gt;网络虚拟化&lt;/h3&gt;
+&lt;h3 id=&quot;存储虚拟化&quot;&gt;存储虚拟化&lt;/h3&gt;
+&lt;p&gt;Datastore 容器  逻辑单元，把物理设备加进来，自动创建逻辑文件&lt;/p&gt;
+&lt;h2 id=&quot;2esxi概述&quot;&gt;2、ESXI概述&lt;/h2&gt;
+&lt;h3 id=&quot;虚拟主机&quot;&gt;虚拟主机&lt;/h3&gt;
+&lt;p&gt;ESXi 作为 NTP 客户端
+同步时间准确性&lt;/p&gt;
+&lt;h2 id=&quot;3vsphere-client&quot;&gt;3、Vsphere client&lt;/h2&gt;
+&lt;p&gt;Vsphere client5.1开始功能不升级&lt;/p&gt;
+
+&lt;p&gt;建议使用web client&lt;/p&gt;
+
+&lt;h3 id=&quot;备注&quot;&gt;备注&lt;/h3&gt;
+&lt;p&gt;管理主机不用Root&lt;/p&gt;
+
+&lt;p&gt;Vpxuger管理主机，是主机和vcenter协商出来的密钥。&lt;/p&gt;
+
+&lt;h1 id=&quot;实验1--安装vsphere-client-和-vsphere-web-client&quot;&gt;实验1  安装vSphere Client 和 vSphere Web Client&lt;/h1&gt;
+&lt;h2 id=&quot;实验环境&quot;&gt;实验环境&lt;/h2&gt;
+&lt;p&gt;第一步，
+https://182.48.114.3/
+组别：20B&lt;/p&gt;
+
+&lt;p&gt;Vmware55
+abcd1234&lt;/p&gt;
+&lt;h1 id=&quot;实验2--配置esxi主机&quot;&gt;实验2  配置ESXI主机&lt;/h1&gt;
+
+&lt;h1 id=&quot;第三章-创建虚拟机&quot;&gt;第三章 创建虚拟机&lt;/h1&gt;
+&lt;h2 id=&quot;1虚机概念&quot;&gt;1、虚机概念&lt;/h2&gt;
+
+&lt;p&gt;虚拟机，从内部看，是一对硬件；从EXSi主机看，是一组文件集。&lt;/p&gt;
+
+&lt;h3 id=&quot;模板文件&quot;&gt;模板文件&lt;/h3&gt;
+
+&lt;p&gt;模板文件不能开机&lt;/p&gt;
+
+&lt;h3 id=&quot;磁盘文件&quot;&gt;磁盘文件&lt;/h3&gt;
+&lt;p&gt;磁盘描述文件、磁盘数据文件是成对出现&lt;/p&gt;
+
+&lt;h3 id=&quot;vmdk-快照&quot;&gt;Vmdk 快照&lt;/h3&gt;
+&lt;p&gt;快照原理&lt;/p&gt;
+
+&lt;p&gt;描述、数据为只读，增量使用&lt;/p&gt;
+
+&lt;p&gt;两块盘加在一起是当前数据&lt;/p&gt;
+
+&lt;p&gt;快照不能备份，每个快照为一个增量&lt;/p&gt;
+
+&lt;p&gt;目的为回滚到目前状态&lt;/p&gt;
+
+&lt;p&gt;快照坏了，依赖它的不能使用。&lt;/p&gt;
+
+&lt;h3 id=&quot;虚机&quot;&gt;虚机&lt;/h3&gt;
+&lt;p&gt;虚机可以挂起，相当于虚机关机。&lt;/p&gt;
+
+&lt;p&gt;和关机的区别：内存状态保存在vmss&lt;/p&gt;
+
+&lt;h3 id=&quot;交换文件&quot;&gt;交换文件&lt;/h3&gt;
+&lt;p&gt;操作系统交换文件为虚机自己管理，虚机开机时创建&lt;/p&gt;
+
+&lt;p&gt;缺省为内存大小&lt;/p&gt;
+
+&lt;h2 id=&quot;2创建虚机&quot;&gt;2、创建虚机&lt;/h2&gt;
+&lt;h4 id=&quot;三种方法&quot;&gt;三种方法&lt;/h4&gt;
+&lt;p&gt;使用向导&lt;/p&gt;
+
+&lt;p&gt;克隆&lt;/p&gt;
+
+&lt;p&gt;模板部署&lt;/p&gt;
+
+&lt;h3 id=&quot;虚机配置&quot;&gt;虚机配置&lt;/h3&gt;
+&lt;p&gt;精简&lt;/p&gt;
+
+&lt;p&gt;密集&lt;/p&gt;
+
+&lt;p&gt;当主机内存需要时候，虚机内存释放给主机&lt;/p&gt;
+
+&lt;h1 id=&quot;实验3-创建虚机&quot;&gt;实验3 创建虚机&lt;/h1&gt;
+&lt;p&gt;•	Provisioned Storage &lt;strong&gt;&lt;em&gt;2.58GB&lt;/em&gt;&lt;/strong&gt; 
+•	Not Shared Storage &lt;strong&gt;1.85KB&lt;/strong&gt;__ 
+•	Used Storage &lt;strong&gt;__1.85KB&lt;/strong&gt;
+配置过后：
+“•	Provisioned Storage &lt;strong&gt;&lt;em&gt;2.48GB&lt;/em&gt;&lt;/strong&gt; 
+•	Not Shared Storage &lt;strong&gt;1.04GB&lt;/strong&gt;__ 
+•	Used Storage ____1.04GB __&lt;/p&gt;
+&lt;h1 id=&quot;第四章-vmware-vcenter-server&quot;&gt;第四章 VMware vCenter Server&lt;/h1&gt;
+&lt;h2 id=&quot;1vcenter-server体系机构&quot;&gt;1、vCenter Server体系机构&lt;/h2&gt;
+&lt;h3 id=&quot;管理平台&quot;&gt;管理平台&lt;/h3&gt;
+&lt;p&gt;管理主机、虚机、设置功能&lt;/p&gt;
+
+&lt;p&gt;每个vcenter server实例可以管理一个1kESXi主机，1w台虚机。&lt;/p&gt;
+
+&lt;p&gt;内置Linux数据库  vhost&lt;/p&gt;
+
+&lt;p&gt;内置windows平台数据库    sql server2008 r2&lt;/p&gt;
+
+&lt;h2 id=&quot;2部署-vcenter-server-虚拟设备&quot;&gt;2、部署 vCenter Server 虚拟设备&lt;/h2&gt;
+&lt;p&gt;导入设备&lt;/p&gt;
+
+&lt;p&gt;导入VOF模板&lt;/p&gt;
+
+&lt;p&gt;封装系统、组件。&lt;/p&gt;
+
+&lt;h1 id=&quot;试验4&quot;&gt;试验4&lt;/h1&gt;
+
+&lt;h2 id=&quot;3管理-vcenter-server-清单&quot;&gt;3、管理 vCenter Server 清单&lt;/h2&gt;
+&lt;h3 id=&quot;使用文件夹组织清单对象&quot;&gt;使用文件夹组织清单对象&lt;/h3&gt;
+
+&lt;h1 id=&quot;补充-vsphere-6&quot;&gt;补充 Vsphere 6&lt;/h1&gt;
+&lt;p&gt;Vsphere6把vcentre分成两大块&lt;/p&gt;
+
+&lt;p&gt;vsphere5是服务&lt;/p&gt;
+
+&lt;h1 id=&quot;实验5--vcenter-server-清单操作&quot;&gt;实验5  vCenter Server 清单操作&lt;/h1&gt;
+&lt;p&gt;注意事项&lt;/p&gt;
+
+&lt;p&gt;做实验时，这章ha  dns  注意：两人一起做还是&lt;/p&gt;
+
+&lt;p&gt;Pin、unpin实现展开于收缩&lt;/p&gt;
+
+&lt;h1 id=&quot;第五章-配置和管理虚拟网络&quot;&gt;第五章 配置和管理虚拟网络&lt;/h1&gt;
+&lt;h2 id=&quot;vnetwork-标准交换机&quot;&gt;vNetwork 标准交换机&lt;/h2&gt;
+
+&lt;p&gt;虚机设置端口组，譬如DMZ、TestDev&lt;/p&gt;
+
+&lt;p&gt;需要配置连接虚机、主机、物理网卡的端口&lt;/p&gt;
+
+&lt;p&gt;企业增强版就有分布式交换机&lt;/p&gt;
+
+&lt;h1 id=&quot;实验6&quot;&gt;实验6&lt;/h1&gt;
+
+&lt;h1 id=&quot;实验7&quot;&gt;实验7&lt;/h1&gt;
+&lt;p&gt;VLAN设置&lt;/p&gt;
+
+&lt;p&gt;物理的VLAN的设置1-4096&lt;/p&gt;
+
+&lt;p&gt;虚拟化的VLAN的设置0-4095&lt;/p&gt;
+
+&lt;h2 id=&quot;三种设置策略两种在内部一种在外部&quot;&gt;三种设置策略，两种在内部，一种在外部&lt;/h2&gt;
+
+&lt;p&gt;	虚拟交换机打vlan标签&lt;/p&gt;
+
+&lt;p&gt;虚拟机端口组设置vlan，范围是1-4094&lt;/p&gt;
+
+&lt;p&gt;虚拟机打标签105vlan&lt;/p&gt;
+
+&lt;p&gt;	从虚机出来的包本身带vlanID，操作系统设置&lt;/p&gt;
+
+&lt;p&gt;Windows系统设置vlan标签&lt;/p&gt;
+
+&lt;p&gt;虚拟交换机的端口设置为4095&lt;/p&gt;
+
+&lt;p&gt;	在物理交换机上设置标签&lt;/p&gt;
+
+&lt;p&gt;端口组缺省为0&lt;/p&gt;
+
+&lt;p&gt;环境：全是生产机&lt;/p&gt;
+
+&lt;p&gt;配置标准虚拟交换机策略&lt;/p&gt;
+
+&lt;h2 id=&quot;安全&quot;&gt;安全&lt;/h2&gt;
+
+&lt;p&gt;	promisculus混杂模式&lt;/p&gt;
+
+&lt;p&gt;端口组启动混杂模式，进行抓包&lt;/p&gt;
+
+&lt;p&gt;	Mac策略更改模式&lt;/p&gt;
+
+&lt;p&gt;缺省可进可出&lt;/p&gt;
+
+&lt;p&gt;	Forged 传输&lt;/p&gt;
+
+&lt;p&gt;从外面来的，进&lt;/p&gt;
+
+&lt;p&gt;从虚机到物理网卡，出&lt;/p&gt;
+
+&lt;p&gt;流量调整策略
+逻辑的调整，物理没法调整
+标准交换机只能控制出栈方面的流量
+负载平衡方法
+	缺省策略
+源端口 ID
+	源 MAC hash
+	Ip哈希
+一个虚拟网卡可以对应多个物理网卡，需要做聚合
+网络故障检测&lt;/p&gt;
+
+&lt;p&gt;实验注意事项
+选择网卡1、3，不能选择2、3&lt;/p&gt;
+
+&lt;p&gt;两学员必须起名相同:Production.&lt;/p&gt;
+&lt;h1 id=&quot;实验8&quot;&gt;实验8&lt;/h1&gt;
+
+&lt;h1 id=&quot;实验9&quot;&gt;实验9&lt;/h1&gt;
+
+&lt;h1 id=&quot;第六章-配置和管理虚拟存储&quot;&gt;第六章 配置和管理虚拟存储&lt;/h1&gt;
+&lt;h2 id=&quot;存储协议概述&quot;&gt;存储协议概述&lt;/h2&gt;
+
+&lt;p&gt;支持裸设备 映射&lt;/p&gt;
+
+&lt;p&gt;把卷映射给虚机&lt;/p&gt;
+
+&lt;p&gt;同一个主机不存在vmotion&lt;/p&gt;
+
+&lt;h2 id=&quot;数据存储&quot;&gt;数据存储&lt;/h2&gt;
+&lt;p&gt;整个文件系统最大为64G&lt;/p&gt;
+
+&lt;p&gt;创建文件最大可以达到62G&lt;/p&gt;
+
+&lt;p&gt;小文件8k来存储&lt;/p&gt;
+
+&lt;h2 id=&quot;配置软件-iscsi&quot;&gt;配置软件 iSCSI&lt;/h2&gt;
+&lt;p&gt;配置 VMkernel 端口以访问 IP 存储&lt;/p&gt;
+
+&lt;h1 id=&quot;实验9-1&quot;&gt;实验9&lt;/h1&gt;
+&lt;p&gt;注意事项&lt;/p&gt;
+
+&lt;p&gt;最后一步，端口绑定不要做！&lt;/p&gt;
+
+&lt;p&gt;成功可以看到5个lan&lt;/p&gt;
+
+&lt;p&gt;尚未完成&lt;/p&gt;
+
+&lt;p&gt;FCoE 适配器&lt;/p&gt;
+
+&lt;h1 id=&quot;实验10&quot;&gt;实验10&lt;/h1&gt;
+
+&lt;p&gt;VMware vSphere VMFS 数据存储&lt;/p&gt;
+
+&lt;p&gt;一个学员用2个&lt;/p&gt;
+
+&lt;p&gt;3、4&lt;/p&gt;
+
+&lt;h1 id=&quot;实验11&quot;&gt;实验11&lt;/h1&gt;
+&lt;p&gt;Capacity   8.5GB&lt;/p&gt;
+
+&lt;p&gt;配置后：&lt;/p&gt;
+
+&lt;p&gt;Capacity   19.5GB&lt;/p&gt;
+
+&lt;h1 id=&quot;第七章--虚拟机管理&quot;&gt;第七章  虚拟机管理&lt;/h1&gt;
+&lt;p&gt;创建和克隆模板&lt;/p&gt;
+
+&lt;p&gt;虚机克隆模板&lt;/p&gt;
+
+&lt;p&gt;虚机转成模板&lt;/p&gt;
+
+&lt;p&gt;模板克隆模板&lt;/p&gt;
+
+&lt;p&gt;新的虚机生成&lt;/p&gt;
+
+&lt;p&gt;向导&lt;/p&gt;
+
+&lt;p&gt;导入&lt;/p&gt;
+
+&lt;p&gt;模板生成&lt;/p&gt;
+
+&lt;p&gt;虚机克隆&lt;/p&gt;
+
+&lt;p&gt;修改虚机&lt;/p&gt;
+
+&lt;p&gt;注意事项&lt;/p&gt;
+
+&lt;p&gt;千万不要点击  OK，再最下端进行修改属性&lt;/p&gt;
+
+&lt;p&gt;Lan第一个人做完，把他删掉；第二个人做完，把它删掉。&lt;/p&gt;
+
+&lt;p&gt;修改VMDK&lt;/p&gt;
+
+&lt;p&gt;模式的转换&lt;/p&gt;
+
+&lt;p&gt;迁移可以修改部署方式&lt;/p&gt;
+
+&lt;p&gt;精简变成全分配
+Inflat
+虚拟机选项
+文件夹位置更改
+做vmotion时候可以修改&lt;/p&gt;
+
+&lt;p&gt;迁移虚机
+冷迁
+挂起   实质关机
+Vmotion    在线
+Stoage  vmotion
+Enhanced vMotion               主机存储一起迁
+Vmotion迁移工作原理
+vmotion网络进行迁移
+vkernel port进行地址配置
+在线迁内存&lt;/p&gt;
+
+&lt;p&gt;存储和主机通过网络路径迁移，不适用&lt;/p&gt;
+&lt;h1 id=&quot;实验12&quot;&gt;实验12&lt;/h1&gt;
+
+&lt;h1 id=&quot;实验13&quot;&gt;实验13&lt;/h1&gt;
+&lt;p&gt;C:1.99G
+变化后
+C:2.98G&lt;/p&gt;
+
+&lt;h1 id=&quot;实验14&quot;&gt;实验14&lt;/h1&gt;
+&lt;p&gt;迁移6次
+创建虚拟机快照
+能使用快照做备份
+操作不敢保证严重后果，所以caozuo 之前做快照&lt;/p&gt;
+
+&lt;p&gt;磁盘状态变为只读&lt;/p&gt;
+
+&lt;p&gt;上端删除下端，删除
+下端删除上端，合并
+创建 vApp
+资源池
+实现资源的控制
+定义开关机顺序、时间&lt;/p&gt;
+&lt;h2 id=&quot;实验15&quot;&gt;实验15&lt;/h2&gt;
+&lt;p&gt;Local-exi02&lt;/p&gt;
+
+&lt;h1 id=&quot;实验16&quot;&gt;实验16&lt;/h1&gt;
+
+&lt;h1 id=&quot;第八章-数据保护&quot;&gt;第八章 数据保护&lt;/h1&gt;
+
+&lt;p&gt;第九章 访问和身份验证控制
+配置 ESXi 主机访问权限和身份验证
+DCUI界面设置锁定模式
+配置角色和权限
+什么用户
+什么组
+具备什么角色进行操作
+角色
+特殊能力的打包
+对象
+同级相加、子集覆盖&lt;/p&gt;
+&lt;h1 id=&quot;实验17&quot;&gt;实验17&lt;/h1&gt;
+&lt;h1 id=&quot;实验18&quot;&gt;实验18&lt;/h1&gt;
+
+&lt;h1 id=&quot;第十章-资源管理和监视&quot;&gt;第十章 资源管理和监视&lt;/h1&gt;
+&lt;p&gt;虚拟 CPU 和内存概念
+虚拟 SMP
+对称多CPU
+非一致性内存访问
+CPU负载均衡
+占用物理CPU方可使用
+同时被占用&lt;/p&gt;
+
+&lt;p&gt;一个物理CPU   3-5虚拟cpu是合理的
+内存
+按需分配
+分配按照page分配
+资源控制
+份额、限制和预留
+三个参数
+Eg：内存2G，当资源出现紧张，预留值500M，当启动时候，还是按照按需分配，资源紧张开始收紧内存，收到500M就停止。
+份额：比例，权重。
+资源池&lt;/p&gt;
+
+&lt;h1 id=&quot;实验18-1&quot;&gt;实验18&lt;/h1&gt;
+
+&lt;p&gt;监视资源使用情况
+性能调整方法
+原则一：CPU、存储数据一套数据，前后做比较
+现象：网络慢
+原则二：综合分析，虚拟机和主机都需要分析
+虚拟化环境
+Eg：虚拟机是否受 CPU 限制？
+首先，看虚拟机性能图表
+接着，看着主机性能图表&lt;/p&gt;
+&lt;h1 id=&quot;实验19&quot;&gt;实验19&lt;/h1&gt;
+
+&lt;h2 id=&quot;第5课-使用警报&quot;&gt;第5课 使用警报&lt;/h2&gt;
+
+&lt;h1 id=&quot;实验20&quot;&gt;实验20&lt;/h1&gt;
+
+&lt;h1 id=&quot;实验21&quot;&gt;实验21&lt;/h1&gt;
+
+&lt;h1 id=&quot;第十一章-高可用性和容错&quot;&gt;第十一章 高可用性和容错&lt;/h1&gt;
+&lt;p&gt;VMware 为每个级别提供保护 
+组件高可用
+网卡绑定
+存储多路径
+服务器
+在线迁移
+异常保护FT
+HA保护
+存储&lt;/p&gt;
+
+&lt;p&gt;数据
+Vmdk复制到远程
+站点
+SRAM
+vCenter Server 高可用
+可以冷备
+可以服务级别的高可用
+应用程序的HA
+高可用
+99.999%
+高可用的能力
+监控主机，保护虚机
+监控虚机，保护虚机
+监控应用，保护应用
+故障情况 – 主机
+只有开启的虚机是受保护的
+通过心跳监控
+故障情况 – 客户操作系统
+当虚拟机停止发 送心跳信号或虚 拟机进程崩溃时 (vmx)，vSphere HA 会重置虚拟机
+故障情况 – 应用程序
+重启虚机
+需要安装 VMware Tools &lt;br /&gt;
+高可用体系结构
+原理
+主机的mosid号作为master，随机分配的
+Master通过FDM告诉其他主机，利用心跳进行监控
+Center怎么知道有多少虚机
+通过maser写在所有共享存储上&lt;/p&gt;
+
+&lt;p&gt;网络心跳信号&lt;/p&gt;
+
+&lt;p&gt;Master需要两根心跳&lt;/p&gt;
+
+&lt;p&gt;出现故障的从属主机&lt;/p&gt;
+
+&lt;p&gt;虚机迁走&lt;/p&gt;
+
+&lt;p&gt;出现故障的主控主机&lt;/p&gt;
+
+&lt;p&gt;迁走并且重新选择master&lt;/p&gt;
+
+&lt;p&gt;隔离主机&lt;/p&gt;
+
+&lt;p&gt;看网络规划怎么设置&lt;/p&gt;
+
+&lt;p&gt;网络分区&lt;/p&gt;
+
+&lt;p&gt;脑裂&lt;/p&gt;
+
+&lt;p&gt;出现两个集群&lt;/p&gt;
+
+&lt;p&gt;一个班级分裂，那么配置一个临时班长&lt;/p&gt;
+
+&lt;p&gt;配置高可用&lt;/p&gt;
+
+&lt;p&gt;HA为集群的一个服务&lt;/p&gt;
+
+&lt;p&gt;接入控制&lt;/p&gt;
+
+&lt;p&gt;在三个虚机情况下，当启动第三个虚机时候，接入控制判断能不能启动，有木有资源支持启动&lt;/p&gt;
+
+&lt;p&gt;预留足够资源，满足此虚机出现问题，被其他虚机接管。&lt;/p&gt;
+
+&lt;p&gt;Eg：3个主机，3*4内存&lt;/p&gt;
+
+&lt;p&gt;动态算:所有开启虚机的CPU、内存的预留值的最大值来计算。&lt;/p&gt;
+
+&lt;h1 id=&quot;实验21-1&quot;&gt;实验21&lt;/h1&gt;
+
+&lt;h1 id=&quot;实验22&quot;&gt;实验22&lt;/h1&gt;
+
+&lt;p&gt;VSphere FT&lt;/p&gt;
+
+&lt;p&gt;虚机、内存两份，存储一份&lt;/p&gt;
+
+&lt;p&gt;主虚机接收IO请求，备虚机备份内存&lt;/p&gt;
+
+&lt;h1 id=&quot;实验23&quot;&gt;实验23&lt;/h1&gt;
+
+&lt;p&gt;Secondary Location&lt;/p&gt;
+
+&lt;p&gt;Joe01-2&lt;/p&gt;
+
+&lt;p&gt;vSphere Replication&lt;/p&gt;
+
+&lt;p&gt;保护开启虚机的VMDK&lt;/p&gt;
+
+&lt;p&gt;Vdp保护虚机&lt;/p&gt;
+
+&lt;p&gt;标准的OF模板&lt;/p&gt;
+
+&lt;p&gt;SVR的一个功能，独立出来的&lt;/p&gt;
+
+&lt;h1 id=&quot;第十二章可扩展性&quot;&gt;第十二章可扩展性&lt;/h1&gt;
+&lt;p&gt;HA&lt;/p&gt;
+
+&lt;p&gt;VC&lt;/p&gt;
+
+&lt;p&gt;DRS&lt;/p&gt;
+
+&lt;p&gt;不是时时刻刻起作用的&lt;/p&gt;
+
+&lt;p&gt;手动运行drs&lt;/p&gt;
+
+&lt;p&gt;EVC&lt;/p&gt;
+
+&lt;p&gt;提高虚拟机性能的方法&lt;/p&gt;
+
+&lt;h1 id=&quot;实验24&quot;&gt;实验24&lt;/h1&gt;
+
+&lt;p&gt;考试靠一半&lt;/p&gt;
+
+&lt;p&gt;题库&lt;/p&gt;
+&lt;h1 id=&quot;第十三章-补丁程序管理&quot;&gt;第十三章 补丁程序管理&lt;/h1&gt;
+
+&lt;h1 id=&quot;第十四章--安装-vmware-组件&quot;&gt;第十四章  安装 VMware 组件&lt;/h1&gt;
+
+&lt;p&gt;认证、授权以及评估&lt;/p&gt;
+
+&lt;p&gt;账号&lt;/p&gt;
+
+&lt;p&gt;账号：邮箱&lt;/p&gt;
+
+&lt;p&gt;证书&lt;/p&gt;
+
+&lt;p&gt;电子证书&lt;/p&gt;
+
+&lt;p&gt;无纸质&lt;/p&gt;
+
+&lt;p&gt;https://mylearn.vmware.com&lt;/p&gt;
+
+&lt;p&gt;点击登陆帮助&lt;/p&gt;
+
+&lt;p&gt;VCP5-TCV   DIANJI&lt;/p&gt;
+
+&lt;p&gt;四个账号&lt;/p&gt;</content><summary type="html">第一章 课程简介
+1、课程要求</summary></entry><entry><title type="html">Jekyll在Github上搭建个人博客</title><link href="http://localhost:4000/jekyll/update/2015/02/16/Jekyll-GithubPages-Blog.html" rel="alternate" type="text/html" title="Jekyll在Github上搭建个人博客" /><published>2015-02-16T13:52:59+08:00</published><updated>2015-02-16T13:52:59+08:00</updated><id>http://localhost:4000/jekyll/update/2015/02/16/Jekyll-GithubPages-Blog</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2015/02/16/Jekyll-GithubPages-Blog.html">&lt;p&gt;通过搭建Jekyll+Github Pages为记录思想、整理笔记和分享知识，并将其中承载的价值传播给他人。&lt;/p&gt;
+
+&lt;p&gt;Jekyll 是一个简单的博客形态的静态站点生产机器。它有一个模版目录，其中包含原始文本格式的文档，通过一个转换器（如 Markdown）和我们的 Liquid 渲染器转化成一个完整的可发布的静态网站，你可以发布在任何你喜爱的服务器上。Jekyll 也可以运行在 GitHub Page 上，也就是说，你可以使用 GitHub 的服务来搭建你的项目页面、博客或者网站，而且是完全免费的。&lt;/p&gt;
+
+&lt;p&gt;Github Pages 是面向用户、组织和项目开放的公共静态页面搭建托管服 务，站点可以被免费托管在 Github 上，你可以选择使用 Github Pages 默 认提供的域名 github.io 或者自定义域名来发布站点。Github Pages 支持 自动利用 Jekyll 生成站点，也同样支持纯 HTML 文档，将你的 Jekyll 站 点托管在 Github Pages 上是一个不错的选择。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;本地搭建Jekyll&lt;/li&gt;
+    &lt;li&gt;创建博客站点&lt;/li&gt;
+    &lt;li&gt;使用Github pages服务生成个人博客&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;本地搭建jekyll&quot;&gt;本地搭建Jekyll&lt;/h2&gt;
+
+&lt;p&gt;本次安装可以Windows下进行。&lt;/p&gt;
+
+&lt;h3 id=&quot;1-jekyll介绍&quot;&gt;1. Jekyll介绍&lt;/h3&gt;
+&lt;p&gt;Jekyll是一个静态站点生成器，它会根据网页源码生成静态文件。它提供了模板、变量、插件等功能，可以用来生成整个网站。&lt;/p&gt;
+
+&lt;p&gt;Jekyll生成的站点，可以直接发布到github上面，这样我们就有了一个免费的，无限流量的，有人维护的属于我们的自己的web网站。Jekyll是基于Ruby的程序，可以通过gem来下载安装。&lt;/p&gt;
+
+&lt;p&gt;Jekyll官方文档：http://jekyllrb.com/&lt;/p&gt;
+
+&lt;h3 id=&quot;2-安装ruby&quot;&gt;2. 安装Ruby&lt;/h3&gt;
+
+&lt;p&gt;下载Ruby : http://rubyinstaller.org/downloads/&lt;/p&gt;
+
+&lt;p&gt;安装Ruby，再安装RubyGems&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ruby&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;3-使用gem安装jekyll&quot;&gt;3. 使用gem安装Jekyll&lt;/h3&gt;
+
+&lt;p&gt;（1）使用命令，安装jekyll及所有需要的依赖，但不包括插件。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;安装jekyll的时候需要注意一下安装版本问题。&lt;/p&gt;
+
+&lt;p&gt;（2）查看Jekyll是否安装成功&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;问题1下载认证文件&quot;&gt;问题1：下载认证文件&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;curl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;haxx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;se&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cacert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cacert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pem&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;设置环境变量，重新安装&lt;/p&gt;
+
+&lt;h2 id=&quot;博客编写测试&quot;&gt;博客编写、测试&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-创建博客&quot;&gt;1. 创建博客&lt;/h3&gt;
+
+&lt;p&gt;切换到博客文件夹下，创建博客：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#创建你的站点&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;这样就会创建一文件夹../blog，其结构如下：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;文件夹_layouts：用于存放模板的文件夹，里面有两个模板，default.html和post.html&lt;/li&gt;
+  &lt;li&gt;文件夹_posts：用于存放博客文章的文件夹，里面有一篇markdown格式的文章–2016-01-27-welcome-to-jekyll.markdown&lt;/li&gt;
+  &lt;li&gt;文件夹css：存放博客所用css的文件夹&lt;/li&gt;
+  &lt;li&gt;_coinfig.yml：jekyll的配置文件，里面可以定义相当多的配置参数，具体配置参数可以参照其官网&lt;/li&gt;
+  &lt;li&gt;index.html：项目的首页&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;2-jekyll基础目录结构&quot;&gt;2. Jekyll基础目录结构&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|-- _config.yml
+|-- index.html
+|-- _includes
+|-- _layouts
+|   |-- default.html
+|   `-- post.html
+|-- css
+|-- js
+|-- _posts
+|   `-- 2015-04-27-Like-Kissing.md
+|-- images
+|   `-- Leah.png 
+|-- CNAME
+|-- _404.html
+|-- About.md
+|—— feed.xml
+`-- README.md
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;目录文档详细说明。如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_includes 博客调用的网页模块（比如导航栏、底栏、博文内容显示、评论模块等），一般不需要管；
+
+_config.yml 博客配置文档（包括博客标题、favicon、博主 ID、头像、描述、联系方式等基本信息都在这个文档添加或修改）；
+
+index.html 博客架构文档；
+
+_layouts 存放博客调用的页面模板文件（比如博客主页、具体博文页）的文件夹
+
+ css 存放博客系统的页面渲染文档文件夹，主要用于调节诸如标题字体、博文字体大小颜色之类； js 存放博客调用的 JS 文档文件夹
+
+_posts 博客正文存放的文件夹。命名有规定，必须为「日期 + 标题」的模式，即「2015-04-27-Like-Kissing.md」，才能发布到博客里； 
+
+images 图片文件夹，存放博客相关素材，包括博客 favicon、博主头像等图片及博文贴图素材； CNAME 用于绑定个人域名的文档；
+
+404.html 「404 Not Found.」站点链接无法访问时的提示页面。 About.html 博客中的个人说明文档（About Me），以 html、md 格式为主； feed.xml 博客的 RSS 订阅； README.md 项目说明文档。用于 Github 个人项目主页的说明（描述）。
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;除此之外，还有诸如 fonts 文件夹，存放博客用的字体文件，或有主题是将 css/js/fonts/images 等文件夹合并到 _assets 为名的主文件夹中。404.html/feed.xml/CNAME 文件并非必须，但一般架构完整的博客都有。&lt;/p&gt;
+
+&lt;h3 id=&quot;3-开启jekyll服务&quot;&gt;3. 开启Jekyll服务&lt;/h3&gt;
+&lt;p&gt;本地服务开启后，Jekyll服务默认端口是4000，所以我打开浏览器，输入：http://localhost:4000 即可查看效果&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;    	 &lt;span class=&quot;c&quot;&gt;#进入blog目录,记得一定要进入创建的目录，否则服务无法开启&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serve&lt;/span&gt; 	 &lt;span class=&quot;c&quot;&gt;#启动你的http服务 &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;4-调试&quot;&gt;4. 调试&lt;/h3&gt;
+
+&lt;p&gt;在博客文件夹下中&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trace&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;将所有文章文件根据其模板进行编译，生成结果，放在根目录下的_site中&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;使用github-pages服务生成个人博客&quot;&gt;使用Github pages服务生成个人博客&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-创建我们的仓库&quot;&gt;1. 创建我们的仓库&lt;/h3&gt;
+
+&lt;p&gt;repository name设置为username.github.com，选择Public仓库类型！&lt;/p&gt;
+
+&lt;h3 id=&quot;2-为仓库创建github-pages&quot;&gt;2. 为仓库创建Github Pages&lt;/h3&gt;
+
+&lt;p&gt;创建仓库后，选择setting
+点击Launch automatic page generator，然后编辑下标题和描述，任意选择一个模板，点击Publish。&lt;/p&gt;
+
+&lt;p&gt;如此，可以通过浏览器输入 http://username.github.io访问博客主页。&lt;/p&gt;
+
+&lt;h3 id=&quot;3-将本地jekyll代码部署到github上的仓库&quot;&gt;3. 将本地jekyll代码部署到Github上的仓库&lt;/h3&gt;
+
+&lt;p&gt;前面已说明如何搭建Jekyll，我们可以在本地开发测试，推送代码到仓库，发布到线上&lt;/p&gt;
+
+&lt;h3 id=&quot;4-克隆仓库到本地&quot;&gt;4. 克隆仓库到本地&lt;/h3&gt;
+
+&lt;p&gt;请确保本地安装了git客户端，克隆username.github.com仓库到本地。&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;此你会看见当前存在username.github.com这个目录，启动jekyll服务&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serve&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;打开http://localhost:4000,即可看见本地创建主页效果，理论上和http://username.github.com 访问的应该是一模一样的。&lt;/p&gt;
+
+&lt;h3 id=&quot;5-拷贝本地的jekyll目录到版本库&quot;&gt;5. 拷贝本地的jekyll目录到版本库&lt;/h3&gt;
+
+&lt;p&gt;删除username.github.com下面的示例文件:&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rf&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_site&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;stylesheets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;拷贝本地blog下的所有目录及文件到username.github.com&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;重启服务，看见本地jekyll的站点效果&lt;/p&gt;
+
+&lt;h3 id=&quot;6-发布&quot;&gt;6. 发布&lt;/h3&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;			   &lt;span class=&quot;c&quot;&gt;#添加到暂存区	&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;提交jekyll默认页面&quot;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#提交到本地仓库&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;origin&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;    	   &lt;span class=&quot;c&quot;&gt;#线上的站点是部署在master下面的&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;稍等10分钟左右，Github Pages有一定时间缓存,我们刷新username.github.io看看,已经ok了！&lt;/p&gt;
+
+&lt;h2 id=&quot;参考链接&quot;&gt;参考链接：&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://jekyllcn.com/&quot;&gt;jekyllcn&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://segmentfault.com/u/lingyucoder/articles?page=1&amp;amp;sort=vote&quot;&gt;http://lingyu.wang/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><summary type="html">通过搭建Jekyll+Github Pages为记录思想、整理笔记和分享知识，并将其中承载的价值传播给他人。</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2015/02/16/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2015-02-16T13:52:59+08:00</published><updated>2015-02-16T13:52:59+08:00</updated><id>http://localhost:4000/jekyll/update/2015/02/16/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2015/02/16/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>

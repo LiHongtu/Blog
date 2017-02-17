@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>观　堂Guan tang</title>
+<meta name="description" content="生活、思考、感悟、记录、探索、分享.">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="canonical" href="https://lihongtu.github.io/">
+<link rel="alternate" type="application/rss+xml" title="观堂Guan tang" href="/feed.xml">
+</head>
+<body>
+<header class="site-header" role="banner">
+  <div class="wrapper"> <a class="site-title" href="/">观 堂Guan tang</a>
+    <nav class="site-nav"> <span class="menu-icon">
+      <svg viewBox="0 0 18 15" width="18px" height="15px">
+        <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+        <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+        <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+      </svg>
+      </span>
+      <div class="trigger"> <a class="page-link" href="/about/">About</a> </div>
+    </nav>
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+  <div class="wrapper"> <article class="post" >
+  <header class="post-header">
+    <h1 class="post-title" >Jekyll在Github上搭建个人博客</h1>
+    <p class="post-meta">
+      <time datetime="2015-02-16T13:52:59+08:00" itemprop="datePublished">Feb 16, 2015</time>
+      </p>
+  </header>
+  <div class="article-entry" itemprop="articleBody"> <p>通过搭建Jekyll+Github Pages为记录思想、整理笔记和分享知识，并将其中承载的价值传播给他人。</p>
+
+<p>Jekyll 是一个简单的博客形态的静态站点生产机器。它有一个模版目录，其中包含原始文本格式的文档，通过一个转换器（如 Markdown）和我们的 Liquid 渲染器转化成一个完整的可发布的静态网站，你可以发布在任何你喜爱的服务器上。Jekyll 也可以运行在 GitHub Page 上，也就是说，你可以使用 GitHub 的服务来搭建你的项目页面、博客或者网站，而且是完全免费的。</p>
+
+<p>Github Pages 是面向用户、组织和项目开放的公共静态页面搭建托管服 务，站点可以被免费托管在 Github 上，你可以选择使用 Github Pages 默 认提供的域名 github.io 或者自定义域名来发布站点。Github Pages 支持 自动利用 Jekyll 生成站点，也同样支持纯 HTML 文档，将你的 Jekyll 站 点托管在 Github Pages 上是一个不错的选择。</p>
+
+<blockquote>
+  <ul>
+    <li>本地搭建Jekyll</li>
+    <li>创建博客站点</li>
+    <li>使用Github pages服务生成个人博客</li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2 id="本地搭建jekyll">本地搭建Jekyll</h2>
+
+<p>本次安装可以Windows下进行。</p>
+
+<h3 id="1-jekyll介绍">1. Jekyll介绍</h3>
+<p>Jekyll是一个静态站点生成器，它会根据网页源码生成静态文件。它提供了模板、变量、插件等功能，可以用来生成整个网站。</p>
+
+<p>Jekyll生成的站点，可以直接发布到github上面，这样我们就有了一个免费的，无限流量的，有人维护的属于我们的自己的web网站。Jekyll是基于Ruby的程序，可以通过gem来下载安装。</p>
+
+<p>Jekyll官方文档：http://jekyllrb.com/</p>
+
+<h3 id="2-安装ruby">2. 安装Ruby</h3>
+
+<p>下载Ruby : http://rubyinstaller.org/downloads/</p>
+
+<p>安装Ruby，再安装RubyGems</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">ruby</span> <span class="o">--</span><span class="n">version</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">gem</span> <span class="n">update</span> <span class="o">--</span><span class="n">system</span>
+</code></pre>
+</div>
+
+<h3 id="3-使用gem安装jekyll">3. 使用gem安装Jekyll</h3>
+
+<p>（1）使用命令，安装jekyll及所有需要的依赖，但不包括插件。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">gem</span> <span class="n">install</span> <span class="n">jekyll</span>
+</code></pre>
+</div>
+
+<p>安装jekyll的时候需要注意一下安装版本问题。</p>
+
+<p>（2）查看Jekyll是否安装成功</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">jekyll</span> <span class="o">-</span><span class="n">v</span>
+</code></pre>
+</div>
+
+<h4 id="问题1下载认证文件">问题1：下载认证文件</h4>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">curl</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">curl</span><span class="o">.</span><span class="n">haxx</span><span class="o">.</span><span class="n">se</span><span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">cacert</span><span class="o">.</span><span class="n">pem</span> <span class="o">-</span><span class="n">o</span> <span class="n">cacert</span><span class="o">.</span><span class="n">pem</span>
+</code></pre>
+</div>
+<p>设置环境变量，重新安装</p>
+
+<h2 id="博客编写测试">博客编写、测试</h2>
+
+<h3 id="1-创建博客">1. 创建博客</h3>
+
+<p>切换到博客文件夹下，创建博客：</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">jekyll</span> <span class="n">new</span> <span class="n">blog</span>  <span class="c">#创建你的站点</span>
+</code></pre>
+</div>
+<p>这样就会创建一文件夹../blog，其结构如下：</p>
+<ol>
+  <li>文件夹_layouts：用于存放模板的文件夹，里面有两个模板，default.html和post.html</li>
+  <li>文件夹_posts：用于存放博客文章的文件夹，里面有一篇markdown格式的文章–2016-01-27-welcome-to-jekyll.markdown</li>
+  <li>文件夹css：存放博客所用css的文件夹</li>
+  <li>_coinfig.yml：jekyll的配置文件，里面可以定义相当多的配置参数，具体配置参数可以参照其官网</li>
+  <li>index.html：项目的首页</li>
+</ol>
+
+<h3 id="2-jekyll基础目录结构">2. Jekyll基础目录结构</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>|-- _config.yml
+|-- index.html
+|-- _includes
+|-- _layouts
+|   |-- default.html
+|   `-- post.html
+|-- css
+|-- js
+|-- _posts
+|   `-- 2015-04-27-Like-Kissing.md
+|-- images
+|   `-- Leah.png 
+|-- CNAME
+|-- _404.html
+|-- About.md
+|—— feed.xml
+`-- README.md
+</code></pre>
+</div>
+
+<p>目录文档详细说明。如下：</p>
+
+<blockquote>
+  <div class="highlighter-rouge"><pre class="highlight"><code>_includes 博客调用的网页模块（比如导航栏、底栏、博文内容显示、评论模块等），一般不需要管；
+
+_config.yml 博客配置文档（包括博客标题、favicon、博主 ID、头像、描述、联系方式等基本信息都在这个文档添加或修改）；
+
+index.html 博客架构文档；
+
+_layouts 存放博客调用的页面模板文件（比如博客主页、具体博文页）的文件夹
+
+ css 存放博客系统的页面渲染文档文件夹，主要用于调节诸如标题字体、博文字体大小颜色之类； js 存放博客调用的 JS 文档文件夹
+
+_posts 博客正文存放的文件夹。命名有规定，必须为「日期 + 标题」的模式，即「2015-04-27-Like-Kissing.md」，才能发布到博客里； 
+
+images 图片文件夹，存放博客相关素材，包括博客 favicon、博主头像等图片及博文贴图素材； CNAME 用于绑定个人域名的文档；
+
+404.html 「404 Not Found.」站点链接无法访问时的提示页面。 About.html 博客中的个人说明文档（About Me），以 html、md 格式为主； feed.xml 博客的 RSS 订阅； README.md 项目说明文档。用于 Github 个人项目主页的说明（描述）。
+</code></pre>
+  </div>
+</blockquote>
+
+<p>除此之外，还有诸如 fonts 文件夹，存放博客用的字体文件，或有主题是将 css/js/fonts/images 等文件夹合并到 _assets 为名的主文件夹中。404.html/feed.xml/CNAME 文件并非必须，但一般架构完整的博客都有。</p>
+
+<h3 id="3-开启jekyll服务">3. 开启Jekyll服务</h3>
+<p>本地服务开启后，Jekyll服务默认端口是4000，所以我打开浏览器，输入：http://localhost:4000 即可查看效果</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">cd</span> <span class="n">blog</span>    	 <span class="c">#进入blog目录,记得一定要进入创建的目录，否则服务无法开启</span>
+<span class="n">jekyll</span> <span class="n">serve</span> 	 <span class="c">#启动你的http服务 </span>
+</code></pre>
+</div>
+<h3 id="4-调试">4. 调试</h3>
+
+<p>在博客文件夹下中</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">jekyll</span> <span class="n">build</span> <span class="o">--</span><span class="n">trace</span>
+</code></pre>
+</div>
+<p>将所有文章文件根据其模板进行编译，生成结果，放在根目录下的_site中</p>
+
+<hr />
+
+<h2 id="使用github-pages服务生成个人博客">使用Github pages服务生成个人博客</h2>
+
+<h3 id="1-创建我们的仓库">1. 创建我们的仓库</h3>
+
+<p>repository name设置为username.github.com，选择Public仓库类型！</p>
+
+<h3 id="2-为仓库创建github-pages">2. 为仓库创建Github Pages</h3>
+
+<p>创建仓库后，选择setting
+点击Launch automatic page generator，然后编辑下标题和描述，任意选择一个模板，点击Publish。</p>
+
+<p>如此，可以通过浏览器输入 http://username.github.io访问博客主页。</p>
+
+<h3 id="3-将本地jekyll代码部署到github上的仓库">3. 将本地jekyll代码部署到Github上的仓库</h3>
+
+<p>前面已说明如何搭建Jekyll，我们可以在本地开发测试，推送代码到仓库，发布到线上</p>
+
+<h3 id="4-克隆仓库到本地">4. 克隆仓库到本地</h3>
+
+<p>请确保本地安装了git客户端，克隆username.github.com仓库到本地。</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">username</span><span class="o">/</span><span class="n">username</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">git</span>
+</code></pre>
+</div>
+<p>此你会看见当前存在username.github.com这个目录，启动jekyll服务</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">cd</span> <span class="n">username</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+<span class="n">jekyll</span> <span class="n">serve</span> <span class="o">-</span><span class="n">B</span>
+</code></pre>
+</div>
+<p>打开http://localhost:4000,即可看见本地创建主页效果，理论上和http://username.github.com 访问的应该是一模一样的。</p>
+
+<h3 id="5-拷贝本地的jekyll目录到版本库">5. 拷贝本地的jekyll目录到版本库</h3>
+
+<p>删除username.github.com下面的示例文件:</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">_site</span> <span class="n">index</span><span class="o">.</span><span class="n">html</span> <span class="n">params</span><span class="o">.</span><span class="n">json</span>  <span class="n">stylesheets</span>
+</code></pre>
+</div>
+<p>拷贝本地blog下的所有目录及文件到username.github.com</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="n">blog</span><span class="o">/*</span> <span class="n">username</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</code></pre>
+</div>
+<p>重启服务，看见本地jekyll的站点效果</p>
+
+<h3 id="6-发布">6. 发布</h3>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">git</span> <span class="n">add</span> <span class="o">--</span><span class="nb">all</span>			   <span class="c">#添加到暂存区	</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s">"提交jekyll默认页面"</span> <span class="c">#提交到本地仓库</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>    	   <span class="c">#线上的站点是部署在master下面的</span>
+</code></pre>
+</div>
+<p>稍等10分钟左右，Github Pages有一定时间缓存,我们刷新username.github.io看看,已经ok了！</p>
+
+<h2 id="参考链接">参考链接：</h2>
+
+<ol>
+  <li>
+    <p><a href="http://jekyllcn.com/">jekyllcn</a></p>
+  </li>
+  <li>
+    <p><a href="https://segmentfault.com/u/lingyucoder/articles?page=1&amp;sort=vote">http://lingyu.wang/</a></p>
+  </li>
+</ol>
+ </div>
+</article>
+ </div>
+</main>
+<footer class="site-footer">
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Copyrights  &copy; 2017. All Rights Reserved. </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
